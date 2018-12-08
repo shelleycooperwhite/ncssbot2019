@@ -1,12 +1,12 @@
-def on_enter(data, output):
+def on_enter(context, output):
   output('Hello! How can I help?')
 
-def on_input(input_data, data, output):
+def on_input(input_data, context, output):
 
   if input_data == 'tell me a joke':
-    return 'JOKE', None
+    return 'JOKE', {}
 
   elif input_data == 'quit':
-    return 'EXIT', None
+    return 'EXIT', {}
 
-  return 'ENTRY', None
+  return 'ENTRY', {}

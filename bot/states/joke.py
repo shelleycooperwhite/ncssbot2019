@@ -6,13 +6,13 @@ JOKES = [
   'There are 10 kinds of people: those who understand binary and those who don\'t.',
 ]
 
-def on_enter(data, output):
+def on_enter(context, output):
   output('Here it is:')
   output(random.choice(JOKES))
   output('Would you like to hear another?')
 
-def on_input(input_data, data, output):
+def on_input(input_data, context, output):
   if input_data == 'yes':
-    return 'JOKE', None
+    return 'JOKE', {}
 
-  return 'ENTRY', None
+  return 'ENTRY', {}
