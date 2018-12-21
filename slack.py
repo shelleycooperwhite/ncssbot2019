@@ -14,6 +14,7 @@ def lol_bot():
 @app.route('/slack/event', methods=['GET', 'POST'])
 def event():
   challenge = request.values.get('challenge')
+  print(request.values)
 
   return jsonify({'challenge': challenge})
 
