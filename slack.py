@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
@@ -6,7 +6,10 @@ app = Flask(__name__)
 def lol_bot():
   text = request.form.get('text')
 
-  return f'lol {text}'
+  return jsonify({
+    'response_type': 'in_channel',
+    'text': f'lol {text}',
+  })
 
 if __name__ == 'main':
   app.run()
