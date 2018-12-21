@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 @app.route('/lol', methods=['GET', 'POST'])
 def lol_bot():
-  text = request.form.get('text')
+  text = request.values.get('text')
 
   return jsonify({
     'response_type': 'in_channel',
@@ -13,7 +13,7 @@ def lol_bot():
 
 @app.route('/slack/event', methods=['GET', 'POST'])
 def event():
-  challenge = request.form.get('challenge') or request.args.get('challenge')
+  challenge = request.values.get('challenge')
 
   return jsonify({'challenge': challenge})
 
