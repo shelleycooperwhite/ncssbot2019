@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, json
 
 app = Flask(__name__)
 
@@ -10,6 +10,12 @@ def lol_bot():
     'response_type': 'in_channel',
     'text': f'lol {text}',
   })
+
+@app.route('/slack/event', methods=['GET', 'POST'])
+def event():
+  challenge = request.form.get('challenge') or request.args.get('challenge')
+
+  return jsonify({'challenge': challenge})
 
 if __name__ == 'main':
   app.run()
