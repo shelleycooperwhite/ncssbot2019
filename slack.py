@@ -48,19 +48,21 @@ def slack_event():
     # if event.get('type') == 'message' and event.get('subtype') != 'bot_message':
       # send_message('Hello from bot!', event.get('channel'))
 
-    def output(text):
-      return send_message(text, event.get('channel'))
+    # If it was a message and it wasn't from our bot, send a message back
+    if event.get('type') == 'message' and event.get('subtype') != 'bot_message':
+      def output(text):
+        return send_message(text, event.get('channel'))
 
-    def prompt():
-      return event.get('text')
+      def prompt():
+        return event.get('text')
 
-    # While state is not EXIT, talk to the user.
-    if state != 'EXIT':
-      # Enter the new state.
-      bot.enter_state(state, context, output)
+      # While state is not EXIT, talk to the user.
+      if state != 'EXIT':
+        # Enter the new state.
+        bot.enter_state(state, context, output)
 
-      # Do the action associated with this state.
-      state, data = bot.execute_state(state, context, output, prompt)
+        # Do the action associated with this state.
+        state, data = bot.execute_state(state, context, output, prompt)
 
   return jsonify({})
 
