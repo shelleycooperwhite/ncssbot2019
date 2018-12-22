@@ -6,6 +6,10 @@ import bot
 
 app = Flask(__name__)
 
+global state, data
+state = 'ENTRY'
+context = {}
+
 
 def send_message(text, channel):
   """
@@ -45,10 +49,6 @@ def slack_event():
     event = payload.get('event')
     # If it was a message and it wasn't from our bot, send a message back
     # todo exclude slash commands
-    # if event.get('type') == 'message' and event.get('subtype') != 'bot_message':
-      # send_message('Hello from bot!', event.get('channel'))
-
-    # If it was a message and it wasn't from our bot, send a message back
     if event.get('type') == 'message' and event.get('subtype') != 'bot_message':
       def output(text):
         return send_message(text, event.get('channel'))
@@ -58,17 +58,13 @@ def slack_event():
 
       # While state is not EXIT, talk to the user.
       if state != 'EXIT':
+        # Do the action associated with this state, based on the input we have.
+        state, data = bot.execute_state(state, context, output, prompt)
+
         # Enter the new state.
         bot.enter_state(state, context, output)
 
-        # Do the action associated with this state.
-        state, data = bot.execute_state(state, context, output, prompt)
-
   return jsonify({})
 
-state = 'ENTRY'
-context = {}
-
 if __name__ == 'main':
-
   app.run()
