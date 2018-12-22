@@ -6,6 +6,9 @@ states = {
 }
 
 def enter_state(state, context, output):
+  if state == 'EXIT':
+    return
+
   states[state].on_enter(context, output)
 
 def execute_state(state, context, output, input_fn):
