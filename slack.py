@@ -1,6 +1,6 @@
-from flask import Flask, request, jsonify, json
+import os, requests
 
-import requests
+from flask import Flask, request, jsonify, json
 
 app = Flask(__name__)
 
@@ -10,7 +10,7 @@ def send_message(text, channel):
   if text:
     json_response = {'text': text, 'channel': channel}
     headers = {
-      'Authorization': 'Bearer xoxb-509687114689-511356328919-X0KhgvsqOCdengigvk9W3opS',
+      'Authorization': 'Bearer {}'.format(os.environ['TOKEN']),
       'Content-Type': 'application/json',
     }
     response = requests.post('https://slack.com/api/chat.postMessage', data=json.dumps(json_response), headers=headers)
