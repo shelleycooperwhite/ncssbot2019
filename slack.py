@@ -36,9 +36,9 @@ def event():
   # if payload:
   #   event = payload.get('event')
   #   if event.get('type') == 'message':
-  #     # todo: Send message back to user
+  #     send_message('Hello from bot!', 'DF08WMPR8')
 
-  send_message('Hello from bot!', 'DF08WMPR8')
+  print(payload)
 
   return jsonify({'success': True})
 
