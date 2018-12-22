@@ -2,6 +2,8 @@ import os, requests
 
 from flask import Flask, request, jsonify, json
 
+import bot
+
 app = Flask(__name__)
 
 
@@ -31,16 +33,40 @@ def lol_bot():
 
 @app.route('/slack/event', methods=['GET', 'POST'])
 def slack_event():
+  global state, data
+
   payload = request.get_json()
+  print(payload)
   if payload:
+
+    if payload.get('type') == 'url_verification':
+      return payload.get('challenge')
+
     event = payload.get('event')
     # If it was a message and it wasn't from our bot, send a message back
-    if event.get('type') == 'message' and event.get('subtype') != 'bot_message':
-      send_message('Hello from bot!', event.get('channel'))
+    # todo exclude slash commands
+    # if event.get('type') == 'message' and event.get('subtype') != 'bot_message':
+      # send_message('Hello from bot!', event.get('channel'))
 
-  print(payload)
+    def output(text):
+      return send_message(text, event.get('channel'))
+
+    def prompt():
+      return event.get('text')
+
+    # While state is not EXIT, talk to the user.
+    if state != 'EXIT':
+      # Enter the new state.
+      bot.enter_state(state, context, output)
+
+      # Do the action associated with this state.
+      state, data = bot.execute_state(state, context, output, prompt)
 
   return jsonify({})
 
+state = 'ENTRY'
+context = {}
+
 if __name__ == 'main':
+
   app.run()
