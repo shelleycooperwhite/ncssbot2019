@@ -6,7 +6,9 @@ app = Flask(__name__)
 
 
 def send_message(text, channel):
-  '''Send a message of a particular type to a slack channel.'''
+  """
+  Send a message to a slack channel.
+  """
   if text:
     json_response = {'text': text, 'channel': channel}
     headers = {
@@ -28,19 +30,17 @@ def lol_bot():
   })
 
 @app.route('/slack/event', methods=['GET', 'POST'])
-def event():
-  print(request.values)
-  print(request.get_json())
-
+def slack_event():
   payload = request.get_json()
-  # if payload:
-  #   event = payload.get('event')
-  #   if event.get('type') == 'message':
-  #     send_message('Hello from bot!', 'DF08WMPR8')
+  if payload:
+    event = payload.get('event')
+    # If it was a message and it wasn't from our bot, send a message back
+    if event.get('type') == 'message' and event.get('subtype') != 'bot_message':
+      send_message('Hello from bot!', event.get('channel'))
 
   print(payload)
 
-  return jsonify({'success': True})
+  return jsonify({})
 
 if __name__ == 'main':
   app.run()
