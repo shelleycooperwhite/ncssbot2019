@@ -10,10 +10,12 @@ def send_message(text, channel):
   if text:
     json_response = {'text': text, 'channel': channel}
     headers = {
-      'Authorization': 'Bearer xoxb-509687114689-511356328919-sfElXzwnCkF8aMLLwJVpeCMs',
+      'Authorization': 'Bearer xoxb-509687114689-511356328919-X0KhgvsqOCdengigvk9W3opS',
       'Content-Type': 'application/json',
     }
-    requests.post('https://slack.com/api/chat.postMessage', data=json.dumps(json_response), headers=headers)
+    response = requests.post('https://slack.com/api/chat.postMessage', data=json.dumps(json_response), headers=headers)
+    print(response.json())
+    print('Sent a message')
 
 
 @app.route('/lol', methods=['GET', 'POST'])
@@ -38,7 +40,7 @@ def event():
 
   send_message('Hello from bot!', 'DF08WMPR8')
 
-  return ('', 204)
+  return jsonify({'success': True})
 
 if __name__ == 'main':
   app.run()
