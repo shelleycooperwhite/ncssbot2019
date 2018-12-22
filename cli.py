@@ -5,11 +5,11 @@ def prompt():
 def run(state, context):
   # While state is not EXIT, talk to the user.
   while state != 'EXIT':
+    # Do the action associated with this state, based on the input we have.
+    state, data = bot.execute_state(state, context, print, prompt)
+
     # Enter the new state.
     bot.enter_state(state, context, print)
-
-    # Do the action associated with this state.
-    state, data = bot.execute_state(state, context, print, prompt)
 
 if __name__ == '__main__':
   import bot

@@ -6,8 +6,9 @@ states = {
 }
 
 def enter_state(state, context, output):
+  # Always check for end command.
   if state == 'EXIT':
-    return
+    return output('Goodbye!')
 
   states[state].on_enter(context, output)
 
